@@ -1,5 +1,19 @@
 use std::{error::Error, fs, io, path::Path};
 
+fn main() -> Result<(), Box<dyn Error>> {
+    let root_folder = "/home/suntu/assets/";
+    // let root_dir = Path::new(root_folder);
+    // println!()
+    let folders = read_folders_in_folder(root_folder)?;
+    println!("Folders in the specified folder:");
+    for folder in folders {
+        println!("{}", folder);
+        copy_and_rename_json_files(&folder)?;
+    }
+
+    Ok(())
+}
+
 fn read_folders_in_folder(folder_path: &str) -> io::Result<Vec<String>> {
     let mut folders = Vec::new();
 
@@ -64,16 +78,4 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let root_folder = "/home/suntu/assets/";
-    // let root_dir = Path::new(root_folder);
-    // println!()
-    let folders = read_folders_in_folder(root_folder)?;
-    println!("Folders in the specified folder:");
-    for folder in folders {
-        println!("{}", folder);
-        copy_and_rename_json_files(&folder)?;
-    }
 
-    Ok(())
-}
