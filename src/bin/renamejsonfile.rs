@@ -13,27 +13,6 @@ fn read_folders_in_folder(folder_path: &str) -> io::Result<Vec<String>> {
     Ok(folders)
 }
 
-fn read_image_files(folder_path: &str) -> io::Result<Vec<String>> {
-    let mut image_files = Vec::new();
-
-    for entry in fs::read_dir(folder_path)? {
-        let entry = entry?;
-        let file_name = entry.file_name();
-        let file_name_str = file_name.to_string_lossy().to_lowercase(); // Convert to lowercase for case-insensitivity
-
-        // Check if the file extension indicates it's an image file
-        if file_name_str.ends_with(".jpg")
-            || file_name_str.ends_with(".jpeg")
-            || file_name_str.ends_with(".png")
-            || file_name_str.ends_with(".gif")
-        {
-            image_files.push(entry.path().display().to_string());
-        }
-    }
-
-    Ok(image_files)
-}
-
 fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
     let folder_path = Path::new(folder_path);
 
@@ -56,6 +35,20 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
         // Process only files with `.json` extension
         if path.is_file() && path.extension().map_or(false, |ext| ext == "json") {
             let new_file_name = format!("{}.json", folder_name);
+            let new_path = folder_path.join(new_file_name);
+
+            // Copy and rename the file
+            fs::copy(&path, &new_path)?;
+            println!(
+                "Copied and renamed: {} -> {}",
+                path.display(),
+                new_path.display()
+            );
+        }
+
+        // Process only files with `.jpg` extension
+        if path.is_file() && path.extension().map_or(false, |ext| ext == "jpg") {
+            let new_file_name = format!("{}.jpg", folder_name);
             let new_path = folder_path.join(new_file_name);
 
             // Copy and rename the file
