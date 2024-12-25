@@ -77,6 +77,8 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
             }
 
             // Copy and rename the file
+            println!("path: {:?}", path);
+            println!("new_path: {:?}", new_path);
             fs::copy(&path, &new_path)?;
             println!(
                 "Copied and renamed: {} -> {}",
