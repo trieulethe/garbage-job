@@ -1,7 +1,7 @@
 use std::{error::Error, fs, io, path::Path};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let root_folder = "/home/suntu/assets/";
+    let root_folder = "/opt/media/";
     // let root_dir = Path::new(root_folder);
     // println!()
     let folders = read_folders_in_folder(root_folder)?;
