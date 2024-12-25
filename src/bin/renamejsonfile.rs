@@ -65,6 +65,12 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
             let new_file_name = format!("{}.jpg", folder_name);
             let new_path = folder_path.join(new_file_name);
 
+             // Remove existing file if it exists
+            if new_path.exists() {
+                fs::remove_file(&new_path)?;
+                println!("Removed old file: {}", new_path.display());
+            }
+
             // Copy and rename the file
             fs::copy(&path, &new_path)?;
             println!(
