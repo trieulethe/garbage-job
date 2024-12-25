@@ -65,11 +65,11 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
             let new_file_name = format!("{}.jpg", folder_name);
             let new_path = folder_path.join(new_file_name);
 
-             // Remove existing file if it exists
-             if new_path.exists() {
+            // Remove existing file if it exists
+            if new_path.exists() {
                 if let Err(e) = fs::remove_file(&new_path) {
                     if e.kind() != std::io::ErrorKind::NotFound {
-                        eprintln!("Failed to remove old file {}: {}", new_path.display(), e);
+                        println!("Failed to remove old file {}: {}", new_path.display(), e);
                     }
                 } else {
                     println!("Removed old file: {}", new_path.display());
@@ -88,5 +88,3 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
 
     Ok(())
 }
-
-
