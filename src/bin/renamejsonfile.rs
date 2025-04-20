@@ -61,31 +61,31 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
         }
 
         // Process only files with `.jpg` extension
-        if path.is_file() && path.extension().map_or(false, |ext| ext == "jpg") {
-            let new_file_name = format!("{}.jpg", folder_name);
-            let new_path = folder_path.join(new_file_name);
+        // if path.is_file() && path.extension().map_or(false, |ext| ext == "jpg") {
+        //     let new_file_name = format!("{}.jpg", folder_name);
+        //     let new_path = folder_path.join(new_file_name);
 
-            // Remove existing file if it exists
-            // if new_path.exists() {
-            //     if let Err(e) = fs::remove_file(&new_path) {
-            //         if e.kind() != std::io::ErrorKind::NotFound {
-            //             println!("Failed to remove old file {}: {}", new_path.display(), e);
-            //         }
-            //     } else {
-            //         println!("Removed old file: {}", new_path.display());
-            //     }
-            // }
+        //     // Remove existing file if it exists
+        //     // if new_path.exists() {
+        //     //     if let Err(e) = fs::remove_file(&new_path) {
+        //     //         if e.kind() != std::io::ErrorKind::NotFound {
+        //     //             println!("Failed to remove old file {}: {}", new_path.display(), e);
+        //     //         }
+        //     //     } else {
+        //     //         println!("Removed old file: {}", new_path.display());
+        //     //     }
+        //     // }
 
-            // Copy and rename the file
-            println!("path: {:?}", path);
-            println!("new_path: {:?}", new_path);
-            fs::copy(&path, &new_path)?;
-            println!(
-                "Copied and renamed: {} -> {}",
-                path.display(),
-                new_path.display()
-            );
-        }
+        //     // Copy and rename the file
+        //     println!("path: {:?}", path);
+        //     println!("new_path: {:?}", new_path);
+        //     fs::copy(&path, &new_path)?;
+        //     println!(
+        //         "Copied and renamed: {} -> {}",
+        //         path.display(),
+        //         new_path.display()
+        //     );
+        // }
     }
 
     Ok(())
