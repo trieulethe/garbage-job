@@ -41,27 +41,28 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
         .and_then(|name| name.to_str())
         .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "Invalid folder name"))?;
 
+    let new_file_name = format!("{}.json", folder_name);
+    let new_path = folder_path.join(new_file_name);
+    if new_path.exists() {
+        if let Err(e) = fs::remove_file(&new_path) {
+            if e.kind() != std::io::ErrorKind::NotFound {
+                println!("Failed to remove old file {}: {}", new_path.display(), e);
+            }
+        } else {
+            println!("Removed old file: {}", new_path.display());
+        }
+    }
+
     // Iterate over files in the folder
     for entry in fs::read_dir(folder_path)? {
         let entry = entry?;
         let path = entry.path();
-           
-        let new_file_name = format!("{}.json", folder_name);
-        let new_path = folder_path.join(new_file_name);
-
-
-        if new_path.exists() {
-                if let Err(e) = fs::remove_file(&new_path) {
-                    if e.kind() != std::io::ErrorKind::NotFound {
-                        println!("Failed to remove old file {}: {}", new_path.display(), e);
-                    }
-                } else {
-                    println!("Removed old file: {}", new_path.display());
-                }
-            }
 
         // Process only files with `.json` extension
-        if path.is_file() && path.extension().map_or(false, |ext| ext == "json") {
+        if path.is_file() 
+            && path.extension().map_or(false, |ext| ext == "json") 
+            && path.file_name() != new_path.file_name()
+        {
             // Copy and rename the file
             fs::copy(&path, &new_path)?;
             println!(
@@ -70,7 +71,6 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
                 new_path.display()
             );
         }
-        break;
 
         // Process only files with `.jpg` extension
         // if path.is_file() && path.extension().map_or(false, |ext| ext == "jpg") {
