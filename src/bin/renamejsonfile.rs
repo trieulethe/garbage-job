@@ -42,6 +42,7 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
         .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "Invalid folder name"))?;
 
     // Iterate over files in the folder
+    let mut is_created = false;
     for entry in fs::read_dir(folder_path)? {
         let entry = entry?;
         let path = entry.path();
@@ -51,7 +52,7 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
             let new_file_name = format!("{}.json", folder_name);
             let new_path = folder_path.join(new_file_name);
 
-            if new_path.exists() {
+            if new_path.exists() && is_created == false {
                 if let Err(e) = fs::remove_file(&new_path) {
                     if e.kind() != std::io::ErrorKind::NotFound {
                         println!("Failed to remove old file {}: {}", new_path.display(), e);
@@ -68,6 +69,7 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
                 path.display(),
                 new_path.display()
             );
+            is_created = true;
         }
 
         // Process only files with `.jpg` extension
