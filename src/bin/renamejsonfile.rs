@@ -47,7 +47,7 @@ fn copy_and_rename_json_files(folder_path: &str) -> io::Result<()> {
         let path = entry.path();
 
         // Process only files with `.json` extension
-        if path.is_file() && path.extension().map_or(false, |ext| ext == "json") {
+        if path.is_file() && path.extension().map_or(false, |ext| ext == "json") && folder_name == "d05775d889" {
             let new_file_name = format!("{}.json", folder_name);
             let new_path = folder_path.join(new_file_name);
 
